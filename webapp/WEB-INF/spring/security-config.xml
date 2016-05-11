@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://www.springframework.org/schema/security"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd">
+
+
+    <http use-expressions="false">
+
+        <intercept-url pattern="/home" access="ROLE_USER"/>
+
+        <form-login
+                login-page="/login"
+                authentication-failure-url="/login?error=true"
+                default-target-url="/home"
+                username-parameter="user_login"
+                password-parameter="user_password"
+        />
+
+        <logout logout-success-url="/login"/>
+        <access-denied-handler error-page="/WEB-INF/pages/accesDen.jsp"/>
+        <csrf disabled="true"/>
+    </http>
+
+    <jdbc-user-service id="jdbcUserService" data-source-ref="dataSource"
+                       users-by-username-query="SELECT username, password, enabled FROM users WHERE username=?"
+                       authorities-by-username-query="SELECT u.username, r.role_user FROM user_role r, users u
+    WHERE u.username = r.username AND u.username = ?"
+    />
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="jdbcUserService">
+            <password-encoder ref="bcryptBean"/>
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="bcryptBean" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+        <beans:constructor-arg name="strength" value="6"/>
+    </beans:bean>
+
+    <!--<authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="user" authorities="ROLE_USER" password="123"/>
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>-->
+
+</beans:beans>
