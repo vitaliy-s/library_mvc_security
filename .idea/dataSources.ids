@@ -10,44 +10,86 @@
       <schema id="1" name="library_mvc_security"/>
       <table id="2" parent="1" name="user_role"/>
       <table id="3" parent="1" name="users"/>
-      <column id="4" parent="2" name="iduser_role">
+      <table id="4" parent="1" name="users_roles"/>
+      <column id="5" parent="2" name="iduser_role">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="5" parent="2" name="user_name">
+      <column id="6" parent="2" name="username">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <column id="6" parent="2" name="role_user">
+      <column id="7" parent="2" name="role_user">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <key id="7" parent="2" name="PRIMARY">
+      <key id="8" parent="2" name="PRIMARY">
         <columns>iduser_role</columns>
         <primary>1</primary>
       </key>
-      <column id="8" parent="3" name="iduser">
+      <column id="9" parent="3" name="iduser">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="9" parent="3" name="username">
+      <column id="10" parent="3" name="username">
         <mandatory>1</mandatory>
         <data-type>varchar(45)</data-type>
       </column>
-      <column id="10" parent="3" name="password">
+      <column id="11" parent="3" name="password">
         <mandatory>1</mandatory>
-        <data-type>varchar(45)</data-type>
+        <data-type>varchar(250)</data-type>
       </column>
-      <column id="11" parent="3" name="enabled">
+      <column id="12" parent="3" name="enabled">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <key id="12" parent="3" name="PRIMARY">
+      <column id="13" parent="3" name="mail">
+        <mandatory>1</mandatory>
+        <data-type>varchar(50)</data-type>
+      </column>
+      <key id="14" parent="3" name="PRIMARY">
         <columns>iduser</columns>
         <primary>1</primary>
       </key>
+      <column id="15" parent="4" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="16" parent="4" name="user_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="17" parent="4" name="role_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <index id="18" parent="4" name="fk_iduser_idx">
+        <columns>user_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="19" parent="4" name="fk_id_role_idx">
+        <columns>role_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="20" parent="4" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="21" parent="4" name="fk_iduser">
+        <columns>user_id</columns>
+        <ref-key>~.users.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="22" parent="4" name="fk_id_role">
+        <columns>role_id</columns>
+        <ref-key>~.user_role.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
     </database-model>
   </data-source>
 </component>

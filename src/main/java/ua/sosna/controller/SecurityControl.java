@@ -29,4 +29,5 @@ public class SecurityControl {
         return "content/home";
     }
 
+
 }

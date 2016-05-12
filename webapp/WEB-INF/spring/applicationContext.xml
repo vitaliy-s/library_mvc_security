@@ -14,4 +14,8 @@
         <property name="password" value="${mysql.password}"/>
     </bean>
 
+    <bean id="userDAO" class="ua.sosna.daoImpl.UserDAOImpl">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
 </beans>
